@@ -41,25 +41,45 @@ const getBinary = (number) => {
   binary += '101';
   return binary;
 };
-const drawBarcode = (binaryString) => {
-  console.log(binaryString.length);
+const drawBarcode = (binaryString, numberString, height) => {
   for (let i = 0; i < binaryString.length; i++) {
     const svgns = 'http://www.w3.org/2000/svg';
     let line = document.createElementNS(svgns, 'line');
-    line.setAttribute('x1', i * 2);
+    line.setAttribute('x1', (i + 10) * 2);
     line.setAttribute('y1', '0');
-    line.setAttribute('x2', i * 2);
-    line.setAttribute('y2', '150');
+    line.setAttribute('x2', (i + 10) * 2);
+
+    if ([0, 1, 2, 46, 47, 48, 92, 93, 94].includes(i)) {
+      line.setAttribute('y2', height + 20);
+    } else {
+      line.setAttribute('y2', height);
+    }
     line.setAttribute('stroke', binaryString[i] == '0' ? 'white' : 'black');
     line.setAttribute('stroke-width', '2');
     barcodeId.appendChild(line);
   }
-  console.log(binaryString);
+  for (let i = 0; i < numberString.length; i++) {
+    let text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    if (i == 0) {
+      text.setAttribute('x', 5);
+    } else if (i == 11) {
+      text.setAttribute('x', 215);
+    } else if (i > 0 && i < 6) {
+      text.setAttribute('x', i * 15 + 20);
+    } else {
+      text.setAttribute('x', i * 15 + 35);
+    }
+    text.setAttribute('y', height + 20);
+    text.setAttribute('fill', 'black');
+    // text.setAttribute('font-size', '25');
+    text.innerHTML = numberString[i];
+    barcodeId.appendChild(text);
+  }
 };
 const generateBarcode = (number) => {
   const binaryString = getBinary(number);
   // console.log(binaryString);
-  drawBarcode(binaryString);
+  drawBarcode(binaryString, number, 100);
 };
 
-generateBarcode('051000012518');
+generateBarcode('136000291459');
