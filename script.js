@@ -26,7 +26,6 @@ rightBinary = {
 };
 const getBinary = (number) => {
   numberString = String(number);
-  console.log(numberString.length);
   binary = '101';
   for (let i = 0; i < numberString.length; i++) {
     if (i < 6) {
@@ -78,7 +77,6 @@ const drawBarcode = (binaryString, numberString, height) => {
 };
 const generateBarcode = (number) => {
   const binaryString = getBinary(number);
-  // console.log(binaryString);
   drawBarcode(binaryString, number, 100);
 };
 
